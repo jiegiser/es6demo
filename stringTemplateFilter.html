@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 引入过滤输出js脚本 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/1.0.8/purify.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <form action="" class="add-comment">
+            <textarea class="comment-text" name="" id="" cols="30" rows="10"></textarea>
+            <button>Post Coment</button>
+        </form>
+        <div class="comment"></div>
+    </div>
+    <script>
+        // https://github.com/cure53/DOMPurify  预防我们网页被攻击xssl
+
+        const addCommentForm = document.querySelector('.add-comment');
+        const textarea = document.querySelector('.comment-text');
+        const commentDiv = document.querySelector('.comment');
+        const user = 'Jiegiser';
+        //    过滤函数
+        function sanitize(strings,...values) {
+            console.log(strings);
+            const dirty=strings.reduce((prev,curr,i)=>
+                `
+                ${prev}${curr}${values[i]||''}
+                `,'');
+                // 返回净化后的方法
+                return DOMPurify.sanitize(dirty);
+        }
+        addCommentForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const newComment = textarea.value.trim();
+            if (newComment) {
+                // 以前是这样写的，不进行过滤
+                // commentDiv.innerHTML=`
+                // <div class='comment-header'>${user}</div>
+                // <div class='comment-body'>${textarea.value}</div>
+                // `;
+
+                // 使用dompurify进行过滤
+                commentDiv.innerHTML = sanitize `
+                <div class='comment-header'>${user}</div>
+                <div class='comment-body'>${textarea.value}</div>
+                `;
+                textarea.value = '';
+            }
+        });
+    </script>
+</body>
+
+</html>

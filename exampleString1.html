@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用扩展字符串实现的小例子</title>
+    <!-- <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/lodash.js/4.17.11/lodash.min.js"></script> -->
+    <script src="dist/main.bundle.js"></script>
+    <style>
+        .heading span {
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.25s
+        }
+
+        .heading span:hover {
+            /* color: red; */
+            transform: translateY(-20px) rotate(10deg) scale(2)
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>go to store</li>
+        <li>Watch TV</li>
+        <li>Go Shopping</li>
+    </ul>
+    <script>
+        //是一个nodelist可以使用扩展运算符转换为数组
+        // document.querySelectorAll('li')
+        // console.log(document.querySelectorAll('li'));//NodeList(3) [li, li, li]
+        // const todos=[...document.querySelectorAll('li')];//[li, li, li]扩展为一个数组
+        // console.log(todos);
+        // const names=todos.map(todo=>todo.textContent);//读取数组中的每一个textContent ["go to store", "Watch TV", "Go Shopping"]
+        // console.log(names);
+
+        // // 属性扩展运算符
+        // const favorities={
+        //     color:['yellow','blue'],
+        //     fruits:['banana','mongo']
+        // }
+        // // 这样就可以将favorities中的fruits扩展到我们的数组中
+        // const shoppinglist=['milk','sweets',...favorities.fruits];
+        // console.log(shoppinglist);//["milk", "sweets", "banana", "mongo"]
+
+
+
+        // 比如我们有一个数组，我们想要根据我们的条件删除掉那条记录
+        // const todos=[
+        //     {id:1,name:'Go to Store',completed:false},
+        //     {id:2,name:'Watch TV',completed:true},
+        //     {id:3,name:'Go Shopping',completed:false}
+        // ];
+        // const id=2//我们要删除的是id为2的
+        // const todoIndex=todos.findIndex(todo=>todo.id===id);
+        // const newTodos=[todos.slice(0,todoIndex),todos.slice(todoIndex+1)];
+        // console.log(newTodos);//我们得到的是一个数组；[Array(1), Array(1)]
+
+
+        // 我们想要得到每一个TODO对象而不是数组，我们可以这样做
+        // const todos=[
+        //     {id:1,name:'Go to Store',completed:false},
+        //     {id:2,name:'Watch TV',completed:true},
+        //     {id:3,name:'Go Shopping',completed:false}
+        // ];
+        // const id=2//我们要删除的是id为2的
+        // const todoIndex=todos.findIndex(todo=>todo.id===id);
+        // const newTodos=[...todos.slice(0,todoIndex),...todos.slice(todoIndex+1)];
+        // console.log(newTodos);//得到的结果是一个数组中包含我们的todo对象；
+
+
+        // 数组扩展运算符在函数中的应用
+        const fruit = ['dd', 'cc', 'aa'];
+        const newfruot = ['w', 'ee', 'eeees'];
+        // 我们想把newfruot追加到fruot上，我们以前可以这样写
+        // 相当于每次使用push进去
+        // fruit.push.apply(fruit,newfruot);
+
+        // 在es6中，我们可以使用扩展运算符将newfruot扩展到fruot里面
+        // fruit.push(...fruit);
+        // console.log(fruit);
+
+
+        // 例子，我们有一个日期数组，想要转换为日期
+        // const dateFields=[2017,5,6];
+        // const date=new Date(...dateFields);
+        // console.log(date);
+
+
+        // 25  2018.12.27
+        // es6在对象字面量上的改进
+
+        // 比如下面的代码
+        // const name='jiegiser';
+        // const age=23;
+        // const birthday='1995-5';
+        // 我们以前设这样将上面的变量赋值给我们对象的属性
+        // 属性名跟变量名一样，写两次很多
+        // const jiegiser={
+        //     name:name,
+        //     age:age,
+        //     birthday:birthday
+        // }
+        // es6中如果两个一样，可以直接只写一个，上面的代码优化为
+        // const jiegiser={
+        //     name,
+        //     age,
+        //     birthday
+        // }
+        // console.log(jiegiser);
+
+        // es6在对象的方法中也提供了简写
+        // 我们以前这样写：
+        // const jiegiser = {
+        //     name,
+        //     age,
+        //     birthday,
+        //     run:function(){
+
+        //     }
+        // }
+        // 上面的代码很繁琐，如果有很多的话，都要写一个function关键字
+
+        // 下面是es6提供的语法
+        // const jiegiser = {
+        //     name,
+        //     age,
+        //     birthday,
+        //     run(){
+
+        //     }
+        // }
+
+
+        // 计算属性
+        // let id=0;
+
+        // // 过去我们可以这样写
+        // userIDs=[`user-${id++}`]=id;
+        // const userID={
+        //     // "user-id":id,//我们有这样的属性，每次递增user-id 的时候。
+        //     // 后面id也递增
+        //     // 现在es6支持直接在对象中使用计算属性
+        //     [`user-${id++}`]:id, //user-1,1
+        //     [`user-${id++}`]:id,//user-2,2
+        //     [`user-${id++}`]:id//user-3,3
+        // }
+
+
+
+        // const keys=['name','age','birthday'];
+        // const values=['jiegiser',22,'1995--5'];
+        // const jiegiser={
+        //     // 我们可以使用数组的shift方法来进行逐渐往下读取数组的值，
+        //     [keys.shift()]:values.shift(),
+        //     [keys.shift()]:values.shift(),
+        //     [keys.shift()]:values.shift()
+
+        //     // [keys.shift()]相当于我们jiegiser[0]这样写
+        // }
+        // console.log(jiegiser);
+
+
+        // promise方法
+        // let user;
+        // $.get('https://api.github.com/users',data=>{
+        //     console.log('fetched all users');
+        //     user=data[0].login;
+        // });
+        // $.get(`https://api.github.com/users/${user}`,data=>{
+        //     console.log('fetched user repos');
+        //     console.log(data);
+        // });
+        // 无法确保哪一个先请求，可以将第二个请求放在第一个请求的回调函数中，如下
+        // let user;
+        // // 这样，会导致回到地狱
+        // $.get('https://api.github.com/users', data => {
+        //     console.log('fetched all users');
+        //     user = data[0].login;
+        //     $.get(`https://api.github.com/users/${user}`, data => {
+        //         console.log('fetched user repos');
+        //         console.log(data);
+        //     });
+        // });
+
+
+        // 使用es6如下，我们这里使用axios来实现
+        // let username;
+        // const usersPromise = axios.get('https://api.github.com/users');
+        // //这个就相当于我们jquery中的事件监听，比如$('p').on('click),function())
+        // usersPromise
+        //     .then(response => { //监听usersPromise，当他成功后执行下面的
+        //         // console.log(response);
+        //         username = response.data[0].login;
+        //         // 获取到后，我们就发出第二个请求
+        //         return axios.get(`https://api.github.com/users/${username}/repos`)
+        //     })
+        //     .then(response => {
+        //         // 我们监听上面的promise对象的
+        //         console.log(response.data)
+        //     })
+        //     .catch(error=>{//如果发生错误，监听错误
+        //         console.log(error);
+        //     })
+
+
+
+        // 编写自己的promise
+        // resolve成功后返回的参数
+        // reject返回失败的信息
+        // const p = new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //         // 监听成功后执行，将数据返回
+        //         // resolve('jiegiser is success');
+        //         // 监听失败后执行，将失败信息返回
+        //         reject(Error('jiegiser is nn'))
+        //     },2000);
+        // });
+        // // 如果成功，执行的下面的方法
+        // p.then(data => {
+        //     console.log(data); //返回请求的数据
+        // })
+        // .catch(data=>{//失败后执行
+        //     console.log(data);
+        // });
+
+
+
+
+        // workFlow工作流,preomise例子
+        // const repos = [{
+        //         name: 'jeigiser',
+        //         owner: 'jiji',
+        //         descript: 'fsdfsdfsdfsdf',
+        //         id: 1
+        //     },
+        //     {
+        //         name: 'jeigiser1',
+        //         owner: 'jiji4',
+        //         descript: 'fsdfsd1dfsdfsdf',
+        //         id: 2
+        //     },
+        //     {
+        //         name: 'jeigiser2',
+        //         owner: 'jiji3',
+        //         descript: 'fsdfsdf2sdfsdf',
+        //         id: 3
+        //     },
+        // ];
+        // const owner = [{
+        //         name: 'jiji',
+        //         location: 'sdfvcdxcds',
+        //         followers: 123
+        //     },
+        //     {
+        //         name: 'jiji4',
+        //         location: 'sdfvcdxcds',
+        //         followers: 123
+        //     },
+        //     {
+        //         name: 'jiji3',
+        //         location: 'sdfvcdxcdsds',
+        //         followers: 123
+        //     },
+        // ];
+
+        // function getReportById(id) {
+        //     return new Promise((reslove, reject) => {
+        //         setTimeout(() => {
+        //             const repo = repos.find(repo => repo.id === id);
+        //             if (repo) {
+        //                 reslove(repo);
+        //             } else {
+        //                 reject(Error("no repo found!"));
+        //             }
+        //         }, 2000);
+        //     })
+        // }
+
+
+
+        // function combounOwner(repo){
+        //     return new Promise((reslove,reject)=>{
+        //         const owner1=owner.find(owner=>owner.name===repo.owner);
+        //         if(owner1){
+        //             repo.owner=owner1;
+        //             reslove(repo);
+        //         }else{
+        //             reject(Error('Can not found the owner'))
+        //         }
+        //     });
+        // }
+
+        // getReportById(1)
+        //     .then(repo => {
+        //         // console.log(repo);
+        //         return combounOwner(repo);
+        //     })
+        //     // .catch(result => {
+        //     //     console.log(result);
+        //     // });
+        //     .then(repo=>{
+        //         console.log(repo);
+        //     })
+        //     .catch(error=>{
+        //         console.log(error);
+        //     })
+
+
+
+
+
+        // 如果我们有很多promise，而且多个并不是相关的。我们只要他们都
+        // 成功之后打印他们的结果：
+        // const userPromise = new Promise((reslove, reject) => {
+        //     setTimeout(() => {
+        //         reslove(['jiegiser', 'sdsd', 'sdfcxcasdas']);
+        //     }, 2000);
+        // });
+
+        // const moviePromise = new Promise((reslove, reject) => {
+        //     setTimeout(() => {
+        //         reslove({
+        //             name: 'jiegiser',
+        //             rating: 9.2,
+        //             year: 2016
+        //         });
+        //     }, 1000);
+        // });
+
+        // 同时处理多个promise对象
+        // Promise.all([userPromise, moviePromise])
+        //     .then(response => { //等到所有的结果都是成功的时候，会执行下面的方法
+        //         // 他会返回多个promise处理功能的结果，以数组的形式进行显示
+        //         console.log(response);
+        //         // 我们可以通过解构的方法，来分别获取到结果
+        //         const [users, movies] = response;
+        //         console.log(users);
+        //         console.log(movies);
+        //     })
+        //     // 如果有一个失败，那么所有的都会执行返回失败的方法
+        //     .catch(error => {
+        //         console.log(error);
+        //     })
+
+        // 与.all方法对应的还有一个就是.race方法，
+        // 他是如果第一个为成功状态，那么所有的promise都执行then方法
+        // 第一个为错误状态，那么所有的都会执行catch方法
+        // Promise.race([userPromise, moviePromise])
+        //     .then(response => { //等到所有的结果都是成功的时候，会执行下面的方法
+        //         // 他会返回多个promise处理功能的结果，以数组的形式进行显示
+        //         console.log(response);
+        //         // 我们可以通过解构的方法，来分别获取到结果
+        //         const [users, movies] = response;
+        //         console.log(users);
+        //         console.log(movies);
+        //     })
+        //     // 如果有一个失败，那么所有的都会执行返回失败的方法
+        //     .catch(error => {
+        //         console.log(error);
+        //     })
+
+
+
+
+
+        // Simple数据类型
+
+        // 我们可以可以给属性名一个唯一的标识符，只需要用Symble包裹属性名
+        // const classRoom = {
+        //     [Symbol('ff')]: {
+        //         grad: 60,
+        //         gender: 'female'
+        //     },
+        //     [Symbol('ffff')]: {
+        //         grad: 80,
+        //         gender: 'female'
+        //     },
+        //     // 如果有两个相同的，后面的属性就会覆盖其那面的属性
+        //     [Symbol('ffff')]: {
+        //         grad: 90,
+        //         gender: 'female'
+        //     }
+        // }
+        // 使用Symbol可以解决上面的问题，Symbol可以创建一个唯一的标识符，给每一个属性
+        // const peter=Symbol();
+        // //注意虽然peter跟student都是Symbol但是他两个是不一样的
+        // const student=Symbol();
+
+        // 我们可以给他们一个唯一的标识符
+        // const peter = Symbol('dd');
+        // const student = Symbol('ddf');
+        // console.log(peter);
+        // console.log(classRoom);
+
+
+        // Symbol是不能遍历的
+        // for (let key in classRoom) {
+        //     console.log(key);
+        // }
+        // es6给我们提供了Object.getOwnPropertySymbols遍历Symbol类型的值
+        // 他返回的是一个数组
+        // const syms = Object.getOwnPropertySymbols(classRoom).map(sym => {
+        //     console.log(sym);
+        //     classRoom[sym]
+        // });
+        // console.log(syms);
+
+
+
+
+
+        // 2018.12.28   30-35
+        // eslint讲解,帮助你规范javascript代码，高度可配置，代码书写规范
+        // https://eslint.org/demo/上面可以检查代码的属性规范
+        // 本地配置ESlint
+
+        // 全局安装eslint npm install -g eslint
+        // 然后在自己的项目中进行eslint初始化，或者可以新建一个.eslintrc的文件，进行配置自己的规则
+        // 手动需要检查哪一个js文件只要在cmd中输入即可：eslint src/index.js
+
+        // 查看报错的内容，然后我们可以在http://eslint.cn/docs/rules/这里看到报错的解决方法
+
+        // 我们可以在检查文件的时候，后面加上--fix这个选项，他会修改不规范的地方：eslint src/index.js --fix
+
+        // 这里需要注意的是有时候eslint会检测到console等等没有定义，是因为没有配置浏览器环境，配置如下：
+        /*
+        "env": {
+            "browser": true,
+            "commonjs": true,
+            "es6": true
+        },
+        */
+
+        // .eslintrc.json中的"extends": "eslint:recommended",这个配置意思就是说我们的规则是使用了eslint的推荐规则。
+        // 我们可以在http://eslint.cn/docs/rules/里面看到所有的规则。带对勾的就是推荐使用的
+        // 其中rules就是配置你自己的规则，比如在推荐的里面no-console禁用 console，我们可以在.eslintrc.json中这样配置
+        /*这样我们代码中如果出现console并不是直接报错，error，而是一个warn警告，代码是可以运行的。
+        "rules": {
+        "no-console":"warn",
+        "indent": [
+            "error",
+            "tab"
+        ],
+        */
+
+        // 如果我们在代码中使用了vue，但是报错，表示未定义，我们可以这样，如下代码：
+        /*
+         "globals": {
+             "vue": true//全局变量名
+         },
+         */ //这样就不会报错了
+
+
+        // 32，我们一般使用Airbnb的书写规范，来规范我们的javascript代码；https://github.com/airbnb/javascript
+        // 我们要使用这个规范，只需要在我们的.eslintrc.json中的"extends": "eslint:recommended",修改为"extends": "airbnb",
+        // 在使用这个规范之前，我们需要安装，安装这个步骤进行安装https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb
+
+        // npm info "eslint-config-airbnb@latest" peerDependencies这个命令是列出每个软件包的正确版本
+        // 然后跟上面的一样eslint src/index.js进行检查，以及eslint src/index.js --fix修改。
+        // 如果想要看到更多的eslint命令，可以使用eslint --help
+
+        // npm install --save-dev eslint-config-airbnb eslint@^5.3.0 eslint-plugin-jsx-a11y@^6.1.1 eslint-plugin-import@^2.14.0 eslint-plugin-react@^7.11.0
+
+        // 如果想要关掉某一个规则，使用"no-console":0,这样就可以关闭了
+
+        // 前面出现vue报错的，还有一种解决方法就是直接在js脚本的最前面加上一个快注释
+        /* globals Vue */ //这样就可以了
+        // 当然，如果我们需要禁用一个规则，在js脚本的前面加一个快注释
+        /* eslint-disable no-new */ //no-new就是我们禁用的 规则
+        // 我们我们想要在某一行之后，再重新打开no-new这个规则，只需要在那一行的前面，在加一个块注释，代码如下
+        /* eslint-enable no-new */
+
+        // 如果我们需要使用eslint的其他插件，在eslint管网进行搜索，然后进行安装，最后.eslintrc.json中
+        // 进行配置如下
+        /*
+        "plugins": ["html", "markdown"]  //我们使用了html插件以及mardown插件
+        */
+
+
+
+        // es6的模块
+        // import { uniq } from 'lodash';//通过import引入lodash中的uniq方法
+        // 我们一般使用import的时候，在浏览器会报错，这是因为浏览器不支持这个import，我们可以通过安装webpack来解决
+        // npm install webpack --save-dev 来安装webpack
+        // 然后我们需要安装babel来将我们的es5的代码转换为es6的代码  https://babeljs.io/setup#installation
+
+        // npm install babel-loader babel-core babel-preset-es2015 --save-dev
+        // 使用webpack我们还需要新建一个webpack配置文件，新建一个webpack.config.js文件；
+        // 然后我们没有全局安装webpack,所以需要在package.json中的script进行配置运行的命令,如下:
+        /*
+        "scripts": {
+            "dev": "babel src/index.js -o dist/index.js",
+            "start": "parcel index.html",
+            "build": "webpack --progress --watch"
+        },
+        */
+       
+
+
+
+        // 2019-1-2
+        // 新建config.js文件// 包含我们项目的所用的配置信息
+        
+    </script>
+</body>
+
+</html>

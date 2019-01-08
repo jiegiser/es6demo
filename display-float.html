@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>布局学习</title>
+    <style>
+        #left {
+            width: 40px;
+            height: 50px;
+            background-color: aquamarine;
+            float: left;
+            /* position: relative;
+            top: 10px;
+            right: 10px; */
+            /* z-index: 11; */
+        }
+
+        #right {
+            width: 40px;
+            height: 50px;
+            background-color: #eeeeee;
+            float: right;
+            /* position: relative;
+            top: 10px;
+            right: 10px;
+            z-index: 10; */
+        }
+
+        #main {
+            width: 100px;
+            height: 100px;
+            top: 10px;
+            left: 10px;
+            position: absolute;
+            background-color: #28b67f;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div id="left"></div>
+        <div id="right"></div>
+    </div>
+    <!-- <div id="001" style="width:100px ;height:50px; border:1px solid #999; background:green; position:absolute;z-index:1">001
+        <div id="002" style="top:20; left:40; width:100px ;height:50px; border:1px solid #999; background:red;position:absolute;z-index:-1">002</div>
+    </div>
+    <div id="003" style="top:20; left:40; width:100px ;height:50px; border:1px solid #999; background:yellow;position:absolute;z-index:0">003</div> -->
+</body>
+
+</html>

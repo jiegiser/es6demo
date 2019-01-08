@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用扩展字符串实现的小例子</title>
+    <style>
+        .heading span{
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.25s
+        }
+        .heading span:hover{
+            /* color: red; */
+            transform: translateY(-20px) rotate(10deg) scale(2)
+        }
+    </style>
+</head>
+<body>
+    <h2 class="heading">jiegiser</h2>
+    <script>
+        const heading=document.querySelector('.heading');
+        
+        console.log(wrap(heading.textContent));
+        heading.innerHTML=wrap(heading.textContent);
+        function wrap(word){
+            // console.log(word);
+            return [...word].map(letter=>`<span>${letter}</span>`).join('');
+        }
+    </script>
+</body>
+</html>

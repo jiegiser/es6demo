@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 引入systemJS脚本---jspm是javascript包管理工具（基于npm之上的） -->
+    <script src="https://jspm.io/system@0.19.js"></script>
+    <title>SystemJS进行打包</title>
+    
+</head>
+<body>
+    <div><p>通过browser-sync来创建一个本地的服务器，运行命令
+        <b>npm install browser-sync --save-dev</b>安装browser-sync</p><br>
+        <p>在packge.json进行配置script
+                "scripts": {
+                    "server": "browser-sync start --directory --server --files '*.html, *.js, *.css'"
+                  },
+        </p>
+        <br>
+        <p>运行 npm run start就会运行我们的服务，他跟live-server是类似的，如果装了live-server可以不使用这个</p>
+    </div>
+    <script>
+        // 配置设置
+        System.config({
+            transpiler: 'babel'
+        });
+        // 设置入口文件
+        System.import('./main.js');
+
+        // SystemJS.import('./main.js');
+    </script>
+</body>
+</html>
